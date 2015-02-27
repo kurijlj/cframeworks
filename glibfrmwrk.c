@@ -213,12 +213,12 @@ There is NO WARRANTY, to the extent permitted by law.\n\n"));
  * reset_gerror - Releases memory allocated at sets pointer to NULL.
  */
 static void
-reset_gerror (GError *gerr)
+reset_gerror (GError **gerr)
 {
-	if ((GError *) NULL != gerr)
+	if ((GError *) NULL != *gerr)
 	{
-		g_error_free (gerr);
-		gerr = (GError *) NULL;
+		g_error_free (*gerr);
+		*gerr = (GError *) NULL;
 	}
 }
 
@@ -258,7 +258,7 @@ main (int argc, char *argv[])
 		g_printerr (_("%s: cannot initialize : %s\n"),
 			exec_name,
 			gerror->message);
-		reset_gerror (gerror);
+		reset_gerror (&gerror);
 		exit (EXIT_FAILURE);
 	}
 
