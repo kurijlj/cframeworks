@@ -8,7 +8,7 @@
 # Global variables section.
 #
 BUG_ADDRESS = kurijlj@gmail.com
-TARGETS = argpfrmwrk getoptfrmwrk glibfrmwrk
+TARGETS = argpfrmwrk getoptfrmwrk glibfrmwrk glibprocesstream
 
 
 
@@ -35,22 +35,29 @@ LIBGLIB2 = $(shell pkg-config --libs glib-2.0)
 help:
 	@echo -e "Usage: LANG=<LANGUAGE> RELEASE=<true> make [option]\n"
 	@echo -e "Supported options:"
-	@echo -e "\thelp\t\t\tPrint this help list"
-	@echo -e "\tall\t\t\tMake all executables"
-	@echo -e "\tprepmsgs\t\tPrepare .po files for translation"
-	@echo -e "\ttranslations\t\tMake .mo translations"
-	@echo -e "\tclean\t\t\tRemove .o and *~ files"
-	@echo -e "\tcleanall\t\tRemove all executables, .o, *~, .ppc"
-	@echo -e "\t\t\t\tand .pot files"
-	@echo -e "\targpfrmwrk\t\tMake argpfrmwrk executable"
-	@echo -e "\targpfrmwrk.po\t\tPrepare argpfrmwrk.po file for translation"
-	@echo -e "\targpfrmwrk.mo\t\tMake argpfrmwrk.mo translation"
-	@echo -e "\tgetoptfrmwrk\t\tMake getoptfrmwrk executable"
-	@echo -e "\tgetoptfrmwrk.po\t\tPrepare getoptfrmwrk.po file for translation"
-	@echo -e "\tgetoptfrmwrk.mo\t\tMake getoptfrmwrk.mo translation"
-	@echo -e "\tglibfrmwrk\t\tMake glibfrmwrk executable"
-	@echo -e "\tglibfrmwrk.po\t\tPrepare glibfrmwrk.po file for translation"
-	@echo -e "\tglibfrmwrk.mo\t\tMake glibfrmwrk.mo translation\n"
+	@echo -e "\thelp\t\t\t\tPrint this help list"
+	@echo -e "\tall\t\t\t\tMake all executables"
+	@echo -e "\tprepmsgs\t\t\tPrepare .po files for translation"
+	@echo -e "\ttranslations\t\t\tMake .mo translations"
+	@echo -e "\tclean\t\t\t\tRemove .o and *~ files"
+	@echo -e "\tcleanall\t\t\tRemove all executables, .o, *~, .ppc"
+	@echo -e "\t\t\t\t\tand .pot files"
+	@echo -e "\targpfrmwrk\t\t\tMake argpfrmwrk executable"
+	@echo -e "\targpfrmwrk.po\t\t\tPrepare argpfrmwrk.po file"
+	@echo -e "\t\t\t\t\tfor translation"
+	@echo -e "\targpfrmwrk.mo\t\t\tMake argpfrmwrk.mo translation"
+	@echo -e "\tgetoptfrmwrk\t\t\tMake getoptfrmwrk executable"
+	@echo -e "\tgetoptfrmwrk.po\t\t\tPrepare getoptfrmwrk.po file"
+	@echo -e "\t\t\t\t\tfor translation"
+	@echo -e "\tgetoptfrmwrk.mo\t\t\tMake getoptfrmwrk.mo translation"
+	@echo -e "\tglibfrmwrk\t\t\tMake glibfrmwrk executable"
+	@echo -e "\tglibfrmwrk.po\t\t\tPrepare glibfrmwrk.po file"
+	@echo -e "\t\t\t\t\tfor translation"
+	@echo -e "\tglibfrmwrk.mo\t\t\tMake glibfrmwrk.mo translation"
+	@echo -e "\tglibprocesstream\t\tMake glibprocesstream executable"
+	@echo -e "\tglibprocesstream.po\t\tPrepare glibprocesstream.po file"
+	@echo -e "\t\t\t\t\tfor translation"
+	@echo -e "\tglibprocesstream.mo\t\tMake glibprocesstream.mo translation\n"
 	@echo -e "Report bugs and suggestions to <$(BUG_ADDRESS)>\n"
 
 
@@ -249,6 +256,65 @@ glibfrmwrk.ppc : SOURCE = glibfrmwrk.c
 glibfrmwrk.ppc : TARGET = $(SOURCE:%.c=%).ppc
 glibfrmwrk.ppc : EXTRA_FLAGS = $(GLIB2CFLAGS)
 glibfrmwrk.ppc : glibfrmwrk.c
+	cpp $(EXTRA_FLAGS) $(SOURCE) $(TARGET)
+
+
+
+##
+# glibprocesstream section.
+#
+glibprocesstream : SOURCES = glibprocesstream.c
+glibprocesstream : TARGET = $(SOURCES:%.c=%)
+glibprocesstream : OBJS = $(TARGET).o
+glibprocesstream : LIBS = $(LIBGLIB2)
+glibprocesstream : EXTRA_FLAGS = $(GLIB2CFLAGS)
+glibprocesstream : glibprocesstream.o
+	gcc -o $(TARGET) $(OBJS) $(LIBS)
+
+glibprocesstream.o : glibprocesstream.c
+ifeq ($(RELEASE), true)
+	gcc $(STD_FLAGS) $(EXTRA_FLAGS) -c $(SOURCES)
+else
+	gcc $(STD_DBG_FLAGS) $(EXTRA_FLAGS) -c $(SOURCES)
+endif
+
+# glibprocesstream localisation section.
+glibprocesstream.mo : SOURCE = glibprocesstream.po
+glibprocesstream.mo : TARGET = $(SOURCE:%.po=%).mo
+.ONESHELL:
+glibprocesstream.mo : glibprocesstream.po
+ifeq ($(strip $(LANG)),)
+	mkdir -p ./$(LANG)/LC_MESSAGES
+	msgfmt -c -v -o $(TARGET) $(SOURCE)
+	mv -v ./$(TARGET) ./$(LANG)/LC_MESSAGES/
+else
+	mkdir -p ./sr_RS@latin/LC_MESSAGES
+	msgfmt -c -v -o $(TARGET) $(SOURCE)
+	mv -v ./$(TARGET) ./sr_RS@latin/LC_MESSAGES/
+endif
+
+glibprocesstream.po : SOURCE = glibprocesstream.pot
+glibprocesstream.po : TARGET = $(SOURCE:%.pot=%).po
+glibprocesstream.po : glibprocesstream.pot
+ifeq ($(strip $(LANG)),)
+	msginit -l $(LANG) -o $(TARGET) -i $(SOURCE)
+else
+	msginit -l sr_RS@latin -o $(TARGET) -i $(SOURCE)
+endif
+
+glibprocesstream.pot : SOURCE = glibprocesstream.ppc
+glibprocesstream.pot : DOMAIN = $(SOURCE:%.ppc=%)
+glibprocesstream.pot : VERSION = 1.0
+glibprocesstream.pot : TARGET = $(DOMAIN).pot
+glibprocesstream.pot : glibprocesstream.ppc
+	xgettext -o $(TARGET) --package-name="$(DOMAIN)" \
+		--package-version="$(VERSION)" \
+		--msgid-bugs-address="$(BUG_ADDRESS)" $(SOURCE)
+
+glibprocesstream.ppc : SOURCE = glibprocesstream.c
+glibprocesstream.ppc : TARGET = $(SOURCE:%.c=%).ppc
+glibprocesstream.ppc : EXTRA_FLAGS = $(GLIB2CFLAGS)
+glibprocesstream.ppc : glibprocesstream.c
 	cpp $(EXTRA_FLAGS) $(SOURCE) $(TARGET)
 
 

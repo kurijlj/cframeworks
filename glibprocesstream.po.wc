@@ -1,0 +1,66 @@
+# Serbian translations for glibprocesstream package
+# енглески преводи за пакет glibprocesstream.
+# Copyright (C) 2015 THE glibprocesstream'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the glibprocesstream package.
+# Ljubomir Kurij <kurijlj@gmail.com>, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: glibprocesstream 1.0\n"
+"Report-Msgid-Bugs-To: kurijlj@gmail.com\n"
+"POT-Creation-Date: 2015-02-28 03:28+0100\n"
+"PO-Revision-Date: 2015-02-28 03:28+0100\n"
+"Last-Translator: Ljubomir Kurij <kurijlj@gmail.com>\n"
+"Language-Team: Serbian\n"
+"Language: sr_RS@latin\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: glibframework.c:112
+msgid "Print version information and then exit."
+msgstr "Prikaži informacije o verziji programa i završi sa radom."
+
+#: glibframework.c:121
+msgid "Input file argument example."
+msgstr "Primer argumenta sa datotekom."
+
+#: glibframework.c:122
+msgid "INPUT_FILE"
+msgstr "ULAZNA_DATOTEKA"
+
+#: glibprocesstream.c:140
+msgid "Application summary goes here.\n"
+msgstr "Ovde treba postaviti kratak opis aplikacije.\n"
+
+#: glibprocesstream.c:141
+#, c-format
+msgid "Report bugs to: %s\n"
+msgstr "Greške prijaviti u elektronsko sanduče: %s\n"
+
+#: glibprocesstream.c:143
+msgid "- framework for application development implementing GNOME GLib."
+msgstr "- kostur za razvoj aplikacija baziran na GNOME GLib biblioteci."
+
+#: glibprocesstream.c:182
+msgid ""
+".\n"
+"License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl."
+"html>\n"
+"This is free software: you are free to change and redistribute it.\n"
+"There is NO WARRANTY, to the extent permitted by law.\n"
+"\n"
+msgstr ""
+".\n"
+"Licenca GPLv3+: GNU GPL verzija 3 ili novija <http://gnu.org/licenses/gpl."
+"html>\n"
+"Ovo je slobodan softver: možete ga slobodno menjati i redistribuirati.\n"
+"Ne postoji nikakva GARANCIJA, u zakonom određenim granicama.\n"
+"\n"
+
+#: glibprocesstream.c:264
+#, c-format
+msgid "%s: cannot initialize : %s\n"
+msgstr "%s: nije moguće izvršiti inicijalizaciju : %s\n"
